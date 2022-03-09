@@ -1,0 +1,15 @@
+{
+  "name": "03-babel",
+  "version": "1.0.0",
+  "main": "index",
+  "scripts": {
+    "transpile": "yarn babel ./src/index.js -o index.js",
+    "start": "node index"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/cli": "^7.17.6",
+    "@babel/core": "^7.17.5",
+    "@babel/plugin-proposal-pipeline-operator": "^7.17.6"
+  }
+}
