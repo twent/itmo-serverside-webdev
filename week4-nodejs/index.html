@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>index.html</h1>
+    <button onclick="fetchUrl()">Button</button>
+   <!-- <script src="script.js"></script>  -->
+    <script>
+        function fetchUrl() {
+            const url = 'https://itmo-week4.twentxx.repl.co/ru';
+
+            fetch(url).then(resp => resp.text())
+                        .then(resp => console.log(resp))
+                        .catch(error => console.log(error))
+        }
+    </script>
+</body>
+</html>
