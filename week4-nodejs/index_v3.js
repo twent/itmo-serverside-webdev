@@ -1,5 +1,10 @@
 import { Server } from 'http';
-import fs from 'fs';
+import finalhandler from 'finalhandler';
+import { createReadStream as createRS } from 'fs';
+import serveStatic from 'serve-static';
+
+// use current directory
+var serve = serveStatic('.');
 
 // CORS headers
 const CORS = {
@@ -15,13 +20,8 @@ Server((req, res) => {
         res.write('<h1>Да</h1>\n');
         res.write(JSON.stringify(req.headers));
     } else if (req.url === '/index.html') {
-        fs.readFile('index.html', function (err, html) {
-            if (err) {
-                throw err; 
-            }
-            res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8', ...CORS });
-            res.write(html);
-        });       
+        // reading file using read stream
+        return createRS('index.html').pipe(res);
     } else if (req.url === '/download') {
         res.writeHead(200, {'Content-Disposition': 'attachment; filename="File.txt"'});
         res.write('File\n');
@@ -34,8 +34,7 @@ Server((req, res) => {
         ((y = 10000, x = Date.now()) => { while (Date.now() - x < y) ;})();
         return setTimeout(() => res.end(`<h1>Miliseconds: ${secs}ms</h1>\n`), secs);
     } else {
-        res.writeHead(404, {'Content-Type': 'text/html; charset=utf-8', ...CORS });
-        res.write('Not Found\n');
+        return serve(req, res, finalhandler(req, res))
     }
 
     res.end();
