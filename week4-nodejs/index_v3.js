@@ -1,7 +1,11 @@
 import { Server } from 'http';
 import finalhandler from 'finalhandler';
+import path from 'path';
 import { createReadStream as createRS } from 'fs';
 import serveStatic from 'serve-static';
+
+// __DIRNAME
+const __dirname = path.resolve();
 
 // use current directory
 var serve = serveStatic('.');
@@ -13,16 +17,19 @@ const CORS = {
     'Access-Control-Allow-Headers': 'Content-Type, Access-Control-Allow-Headers'
 };
 
-Server((req, res) => {
+// HttpServer PORT
+const PORT = process.env.PORT || 8000;
+
+const server = Server((req, res) => {
     
-    if (req.url === '/ru') {
+    if (req.url.startsWith('/ru')) {
         res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8', ...CORS });
         res.write('<h1>Да</h1>\n');
         res.write(JSON.stringify(req.headers));
-    } else if (req.url === '/index.html') {
+    } else if (req.url.startsWith('/index.html')) {
         // reading file using read stream
-        return createRS('index.html').pipe(res);
-    } else if (req.url === '/download') {
+        return createRS(path.join(__dirname, 'public', 'index.html')).pipe(res);
+    } else if (req.url.startsWith('/download')) {
         res.writeHead(200, {'Content-Disposition': 'attachment; filename="File.txt"'});
         res.write('File\n');
     } else if (req.url.startsWith('/timer')) {
@@ -39,4 +46,6 @@ Server((req, res) => {
 
     res.end();
 
-}).listen(8080);
+});
+
+server.listen(PORT, () => console.log(`Server started on port ${PORT}`));

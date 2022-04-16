@@ -4,6 +4,10 @@
   "type": "module",
   "main": "index.js",
   "license": "MIT",
+  "scripts": {
+    "start": "node index_v3.js",
+    "dev": "nodemon index_v3.js"
+  },
   "dependencies": {
     "finalhandler": "^1.2.0",
     "serve-static": "^1.15.0"
