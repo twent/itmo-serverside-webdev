@@ -26,7 +26,7 @@ const server = Server((req, res) => {
         res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8', ...CORS });
         res.write('<h1>Да</h1>\n');
         res.write(JSON.stringify(req.headers));
-    } else if (req.url.startsWith('/index.html')) {
+    } else if (req.url.startsWith('/index.html') || req.url === '/') {
         // reading file using read stream
         return createRS(path.join(__dirname, 'public', 'index.html')).pipe(res);
     } else if (req.url.startsWith('/download')) {
